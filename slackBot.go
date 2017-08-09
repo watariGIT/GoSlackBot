@@ -32,6 +32,6 @@ func run(api *slack.Client) int {
 }
 
 func main() {
-    api := slack.New("[YOUR-API-TOKEN]")
+    api := slack.New(getPassword())
     os.Exit(run(api))
 }
