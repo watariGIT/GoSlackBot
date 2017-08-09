@@ -1,9 +1,9 @@
 # GoSlackBot
 
-##概要
+## 概要
 goでslackBotを作る
 
-##ライブラリのインストール
+## ライブラリのインストール
 ```
 $ go get -u github.com/nlopes/slack
 ```
