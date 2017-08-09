@@ -12,7 +12,7 @@ $ go get -u github.com/nlopes/slack
 ```
 package main
 
-func getPassword()(string) {
+func getApiToken()(string) {
     return "YOUR-API-TOKEN"
 }
 ```
