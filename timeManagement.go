@@ -59,8 +59,8 @@ func timeManagement(ev *slack.MessageEvent, rtm *slack.RTM) {
 				record[2] = outTime.Format("15:04:05")
 				//勤務時間の計算+出力
 				inTime, _ := time.Parse("2006/01/02 15:04:05 MST", record[0]+" "+record[1]+" JST")
-				rtm.SendMessage(rtm.NewOutgoingMessage(outTime.Format("2006/01/02 15:04:05")+"に退勤!", ev.Channel))
-				rtm.SendMessage(rtm.NewOutgoingMessage("今日は"+inTime.Format("15:04:05")+"に出勤からぁ...", ev.Channel))
+				rtm.SendMessage(rtm.NewOutgoingMessage(outTime.Format("2006/01/02 15:04:05")+"に仕事がおわった!", ev.Channel))
+				rtm.SendMessage(rtm.NewOutgoingMessage("今日は"+inTime.Format("15:04:05")+"に出勤だからぁ...", ev.Channel))
 				subTime := outTime.Sub(inTime)
 				rtm.SendMessage(rtm.NewOutgoingMessage(fmt.Sprintf("%d時間%d分 働きました!!", int(subTime.Hours())%24, int(subTime.Minutes())%60), ev.Channel))
 			}
@@ -79,4 +79,21 @@ func timeManagement(ev *slack.MessageEvent, rtm *slack.RTM) {
 		csvWriter.WriteAll(records)
 	}
 
+	//勤怠管理機能のファイルアップロード
+	if ev.Text == "タイムカード" {
+		file,_:=os.Open("files/timestamp_" + ev.User + ".csv")
+		defer file.Close()
+				
+		params := slack.FileUploadParameters{
+			Title: "タイムカードです",
+			File:  "files/timestamp_" + ev.User + ".csv",
+			Channels : []string{ev.Channel},
+		}
+		
+		_, err := rtm.UploadFile(params)
+		if err != nil {
+			fmt.Printf("%s\n", err)
+			return
+		}
+	}
 }
