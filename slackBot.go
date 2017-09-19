@@ -26,7 +26,8 @@ func run(api *slack.Client) int {
 				//勤怠管理の処理
 				timeManagement(ev, rtm)
 
-				log.Printf("Message: %+v\n", ev)
+				//くじ引き
+				lottery(ev,rtm)
 
 			case *slack.InvalidAuthEvent:
 				log.Print("Invalid credentials")
