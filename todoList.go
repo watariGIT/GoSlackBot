@@ -19,7 +19,7 @@ func todoList(ev *slack.MessageEvent, rtm *slack.RTM) {
 		//useridのファイル名にTODOを追加
 		file, err := os.OpenFile("files/todo_"+ev.User+".txt", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 			return
 		}
 		defer file.Close()
@@ -34,7 +34,7 @@ func todoList(ev *slack.MessageEvent, rtm *slack.RTM) {
 		file, err := os.Open("files/todo_" + ev.User + ".txt")
 
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 			rtm.SendMessage(rtm.NewOutgoingMessage("ファイルの読み込みに失敗しました。", ev.Channel))
 			return
 		}
